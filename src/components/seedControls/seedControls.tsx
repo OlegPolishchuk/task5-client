@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Box, Button, Input} from "@mui/material";
+import {Box, Button, Input, Typography} from "@mui/material";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useDebounce} from "hooks/useDebounce";
 import {setSeed} from "store/appReducer/appReducer";
@@ -15,8 +15,6 @@ export const SeedControls = React.memo( () => {
   const dispatch = useAppDispatch();
 
   const seed = useAppSelector(selectSeed);
-
-  console.log(`seed`, seed)
 
   const [value, setValue] = useState(seed);
   const debouncedValue = useDebounce<number>(value, DEBOUNCED_DELAY)
@@ -39,9 +37,16 @@ export const SeedControls = React.memo( () => {
   }, [debouncedValue])
 
   return (
-    <div>
-      <Box>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    }}>
+      <Typography>
+        Seed:
+      </Typography>
 
+      <Box sx={{ml: '30px'}}>
         <Input
           value={value}
           onChange={handleSeedChange}
@@ -53,8 +58,8 @@ export const SeedControls = React.memo( () => {
         >
           Random
         </Button>
-
       </Box>
-    </div>
+
+    </Box>
   );
 });

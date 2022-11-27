@@ -11,6 +11,7 @@ import {
   selectSeed
 } from "store/selectors";
 import {getData} from "store/appReducer/actions/getData";
+import {Box} from "@mui/material";
 
 export const Header = () => {
   console.log('header')
@@ -27,9 +28,16 @@ export const Header = () => {
 
   return (
     <header>
-      <RegionSelect />
-      <ErrorCounter />
-      <SeedControls />
+      <Box sx={{
+        width: '600px',
+        margin: '30px auto',
+        padding: '15px',
+        boxShadow: 2,
+      }}>
+        <RegionSelect />
+        <ErrorCounter />
+        <SeedControls />
+      </Box>
     </header>
   );
 };

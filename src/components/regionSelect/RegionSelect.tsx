@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {
+  Box,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent
+  SelectChangeEvent, Typography
 } from "@mui/material";
 import {useAppSelector} from "hooks/useAppSelector";
 import {selectCurrentRegion, selectRegions} from "store/selectors";
@@ -15,8 +16,6 @@ import {useSearchParams} from "react-router-dom";
 export const RegionSelect = () => {
   const dispatch = useAppDispatch();
 
-  // const [searchParams, setSearchParams] = useSearchParams();
-
   const regions = useAppSelector(selectRegions);
   const currentRegion = useAppSelector(selectCurrentRegion);
 
@@ -24,24 +23,28 @@ export const RegionSelect = () => {
     dispatch(setCurrentRegion(event.target.value));
   }
 
-  // useEffect(() => {
-  //   searchParams.set('region', currentRegion.title);
-  //   searchParams.set('locale', currentRegion.locale);
-  //
-  //   setSearchParams(searchParams);
-  // }, [currentRegion])
 
   return (
-    <FormControl fullWidth>
-      <Select
-        value={currentRegion.title}
-        label="Region"
-        onChange={handleChangeRegion}
-      >
-        {regions.map(region => (
-          <MenuItem key={region.title} value={region.title}>{region.title}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      width: '100%',
+      padding: '30px 0',
+    }}>
+      <Typography>
+        Chose Region:
+      </Typography>
+      <FormControl sx={{minWidth: '300px', ml: '30px'}}>
+        <Select
+          value={currentRegion.title}
+          onChange={handleChangeRegion}
+        >
+          {regions.map(region => (
+            <MenuItem key={region.title} value={region.title}>{region.title}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };

@@ -20,8 +20,6 @@ export const ErrorCounter = () => {
 
   const errorCount = useAppSelector(selectErrorCount);
 
-  // const [searchParams, setSearchParams] = useSearchParams();
-
   const [value, setValue] = useState(errorCount);
   const debouncedValue = useDebounce<number>(value, DEBOUNCED_DELAY)
 
@@ -50,39 +48,49 @@ export const ErrorCounter = () => {
   }, [debouncedValue])
 
   return (
-    <Box sx={{ width: 600 }}>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'flex-end'
+    }}>
+
       <Typography gutterBottom>
-        Error count
+        Error count:
       </Typography>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs>
-          <Slider
-            value={value}
-            onChange={handleSliderChange}
-            getAriaValueText={valuetext}
-            valueLabelDisplay="auto"
-            marks
-            min={MIN_SLIDER_VALUE}
-            max={MAX_SLIDER_VALUE}
-            step={SLIDER_STEP}
-          />
+
+      <Box sx={{
+        width: '400px',
+        ml: '30px',
+        mb: '30px',
+      }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs>
+            <Slider
+              value={value}
+              onChange={handleSliderChange}
+              getAriaValueText={valuetext}
+              valueLabelDisplay="auto"
+              marks
+              min={MIN_SLIDER_VALUE}
+              max={MAX_SLIDER_VALUE}
+              step={SLIDER_STEP}
+            />
+          </Grid>
+          <Grid item>
+            <Input
+              value={value}
+              size="small"
+              onChange={handleInputChange}
+              onBlur={handleBlur}
+              inputProps={{
+                step: 1,
+                min: MIN_INPUT_VALUE,
+                max: MAX_INPUT_VALUE,
+                type: 'number',
+              }}
+            />
+          </Grid>
         </Grid>
-        <Grid item>
-          <Input
-            value={value}
-            size="small"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 1,
-              min: MIN_INPUT_VALUE,
-              max: MAX_INPUT_VALUE,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
-        </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 };
