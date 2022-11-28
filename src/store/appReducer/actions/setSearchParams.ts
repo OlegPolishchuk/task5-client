@@ -1,11 +1,11 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {Region, SearchParams, SearchParamsToState} from "store/appReducer/types/types";
+import {SearchParams, SearchParamsToState} from "store/appReducer/types/types";
 import {setSearchParams} from "store/appReducer/appReducer";
 import {RootState} from "store/store";
 
 export const setSearchParamsToState = createAsyncThunk<void, SearchParams, {state: RootState}>(
   'app/setSearchParams',
-  (searchParams: SearchParams, {dispatch, getState}) => {
+  (searchParams: SearchParams, {dispatch}) => {
 
     const updatedParams: SearchParamsToState = {
       pageNumber: Number(searchParams.pageNumber),

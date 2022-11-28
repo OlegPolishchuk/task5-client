@@ -17,6 +17,8 @@ import {useAppDispatch} from "hooks/useAppDispatch";
 import {setPageNumber} from "store/appReducer/appReducer";
 import {useSearchParams} from "react-router-dom";
 
+const DataItemsCountAfterFirstPage = 10;
+
 export const DataList = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector(selectData);
@@ -31,9 +33,13 @@ export const DataList = () => {
     threshold: 0,
   });
 
+  const startListNumber = pageNumber === 0
+    ? 1
+    : pageNumber * DataItemsCountAfterFirstPage + 1;
+
   useEffect(() => {
     if (pageNumber === 0) {
-      theadRef.current?.scrollIntoView({behavior: 'smooth'})
+      theadRef.current?.scrollIntoView()
     }
   }, [pageNumber])
 
@@ -74,7 +80,7 @@ export const DataList = () => {
               ref={index === data.length -1 ? ref : null}
             >
               <TableCell component="th" scope="row">
-                {index + 1}
+                {startListNumber + index}
               </TableCell>
               <TableCell align="right">{dataItem.id}</TableCell>
               <TableCell align="right">{dataItem.name}</TableCell>

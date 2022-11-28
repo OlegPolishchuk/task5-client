@@ -1,11 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {
-  InitialState,
-  Region,
-  SearchParams,
-  SearchParamsToState,
-  User
-} from "store/appReducer/types/types";
+import {InitialState, SearchParamsToState, User} from "store/appReducer/types/types";
 import {getData} from "store/appReducer/actions/getData";
 import {AxiosError} from "axios";
 
@@ -74,6 +68,5 @@ export const {
   setErrorCount,
   setSeed,
   setPageNumber,
-  setDefaultRegion,
   setSearchParams,
 } = appSlice.actions;
