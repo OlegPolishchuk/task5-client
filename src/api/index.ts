@@ -7,6 +7,10 @@ export const appApi = {
     return instance.get(
       `?pageNumber=${pageNumber}&region=${region}&seed=${seed}&errorsCount=${errorsCount}`
     )
+  },
+
+  downloadCSV() {
+    return instance.get('/file', {responseType: 'blob'})
   }
 
 }
