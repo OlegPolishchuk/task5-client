@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {
   Box,
   FormControl,
@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import {useAppSelector} from "hooks/useAppSelector";
 import {selectCurrentRegion, selectRegions} from "store/selectors";
-import {setCurrentRegion, setPageNumber} from "store/appReducer/appReducer";
+import {
+  setCurrentRegion,
+  setErrorCount,
+  setPageNumber
+} from "store/appReducer/appReducer";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useSearchParams} from "react-router-dom";
 
@@ -24,8 +28,10 @@ export const RegionSelect = () => {
   const handleChangeRegion = (event: SelectChangeEvent) => {
     dispatch(setCurrentRegion(event.target.value));
     dispatch(setPageNumber(0))
+    dispatch(setErrorCount(0))
 
     search.set('pageNumber', '0');
+    search.set('errorsCount', '0');
     search.set('region', event.target.value);
     setSearch(search);
   }

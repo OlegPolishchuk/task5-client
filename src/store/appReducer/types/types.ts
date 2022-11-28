@@ -18,13 +18,14 @@ export type Region = {
 
 export type User = {
   id: string;
-  name: string,
-  address: {
-    city: string;
-    street: string;
-    zipCode: string;
-    timeZone: string;
-  },
+  name: string;
+  address: string;
+  // address: {
+  //   city: string;
+  //   street: string;
+  //   zipCode: string;
+  //   timeZone: string;
+  // },
   phoneNumber: string;
 }
 

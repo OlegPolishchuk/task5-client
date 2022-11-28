@@ -1,7 +1,8 @@
-import React, {FC, useEffect, useRef} from 'react';
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
+import React, {useEffect, useRef} from 'react';
 import {
-  Box, CircularProgress, LinearProgress, Paper,
+  Box,
+  LinearProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -9,7 +10,6 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import {User} from "store/appReducer/types/types";
 import {useAppSelector} from "hooks/useAppSelector";
 import {selectData, selectIsLoading, selectPageNumber} from "store/selectors";
 import {useInView} from "react-intersection-observer";
@@ -25,9 +25,17 @@ export const DataList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const {ref, inView, entry} = useInView({
+  const theadRef = useRef<HTMLTableSectionElement>(null);
+
+  const {ref, inView} = useInView({
     threshold: 0,
   });
+
+  useEffect(() => {
+    if (pageNumber === 0) {
+      theadRef.current?.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [pageNumber])
 
   useEffect(() => {
     if (inView) {
@@ -41,11 +49,15 @@ export const DataList = () => {
   return (
     <TableContainer
       component={Paper}
-      sx={{margin: '50px 0'}}
+      sx={{
+        margin: '50px 0',
+        maxHeight: 'calc(100vh - 200px)',
+        overflowY: 'scroll',
+    }}
     >
 
       <Table sx={{minWidth: 650}} aria-label="simple table">
-        <TableHead>
+        <TableHead ref={theadRef}>
           <TableRow>
             <TableCell/>
             <TableCell align="right">ID</TableCell>
@@ -66,7 +78,7 @@ export const DataList = () => {
               </TableCell>
               <TableCell align="right">{dataItem.id}</TableCell>
               <TableCell align="right">{dataItem.name}</TableCell>
-              <TableCell align="right">{dataItem.address.city}</TableCell>
+              <TableCell align="right">{dataItem.address}</TableCell>
               <TableCell align="right">{dataItem.phoneNumber}</TableCell>
             </TableRow>
           ))}

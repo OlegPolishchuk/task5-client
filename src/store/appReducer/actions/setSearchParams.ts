@@ -7,7 +7,6 @@ export const setSearchParamsToState = createAsyncThunk<void, SearchParams, {stat
   'app/setSearchParams',
   (searchParams: SearchParams, {dispatch, getState}) => {
 
-    console.log(`seed in setSearchParamsToState`, searchParams.seed)
     const updatedParams: SearchParamsToState = {
       pageNumber: Number(searchParams.pageNumber),
       seed: Number(searchParams.seed),
