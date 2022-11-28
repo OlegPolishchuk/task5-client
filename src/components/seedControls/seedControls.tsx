@@ -1,20 +1,23 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {Box, Button, Input, Typography} from "@mui/material";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useDebounce} from "hooks/useDebounce";
 import {setSeed} from "store/appReducer/appReducer";
 import {getRandomInRange} from "utils/getRandomInRange";
-import {useAppSelector} from "hooks/useAppSelector";
-import {selectSeed} from "store/selectors";
+import {useSearchParams} from "react-router-dom";
 
 const MIN_SEED_RANGE_VALUE = 1;
 const MAX_SEED_RANGE_VALUE = 100000;
 const DEBOUNCED_DELAY = 500;
 
-export const SeedControls = React.memo( () => {
-  const dispatch = useAppDispatch();
+type Props = {
+  seed: number;
+}
 
-  const seed = useAppSelector(selectSeed);
+export const SeedControls: FC<Props> = React.memo( ({seed}) => {
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+
 
   const [value, setValue] = useState(seed);
   const debouncedValue = useDebounce<number>(value, DEBOUNCED_DELAY)
@@ -34,6 +37,8 @@ export const SeedControls = React.memo( () => {
   useEffect(() => {
     dispatch(setSeed(value));
 
+    searchParams.set('seed', `${value}`);
+    setSearchParams(searchParams);
   }, [debouncedValue])
 
   return (

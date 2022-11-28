@@ -1,12 +1,13 @@
 export type InitialState = {
-  regions: Region[];
-  currentRegion: Region;
-  errorCount: number;
+  regions: string[];
+  currentRegion: string;
+  errorsCount: number;
   seed: number;
   data: User[];
   isLoading: boolean;
   error: string;
   pageNumber: number;
+  defaultRegion: string;
 }
 
 export type Region = {
@@ -25,4 +26,18 @@ export type User = {
     timeZone: string;
   },
   phoneNumber: string;
+}
+
+export type SearchParams = {
+  pageNumber: string;
+  region: string;
+  seed: string;
+  errorsCount: string;
+}
+
+export type SearchParamsToState = {
+  pageNumber: number;
+  region: string;
+  seed: number;
+  errorsCount: number;
 }

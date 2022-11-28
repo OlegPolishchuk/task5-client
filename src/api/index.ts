@@ -1,17 +1,12 @@
 import {instance} from "api/instance";
-import {GetUsers} from "api/types";
+import {GetData} from "api/types";
 
 export const appApi = {
 
-  getUsers({currentRegion, errorCount, seed, pageNumber}: GetUsers){
-    return instance.get('', {
-      params: {
-        currentRegion,
-        errorCount,
-        seed,
-        pageNumber,
-      }
-    })
+  getUsers({region, errorsCount, seed, pageNumber}: GetData){
+    return instance.get(
+      `?pageNumber=${pageNumber}&region=${region}&seed=${seed}&errorsCount=${errorsCount}`
+    )
   }
 
 }

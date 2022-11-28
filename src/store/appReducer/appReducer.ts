@@ -1,19 +1,19 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {InitialState, Region, User} from "store/appReducer/types/types";
+import {
+  InitialState,
+  Region,
+  SearchParams,
+  SearchParamsToState,
+  User
+} from "store/appReducer/types/types";
 import {getData} from "store/appReducer/actions/getData";
 import {AxiosError} from "axios";
 
 const initialState: InitialState = {
-  regions: [
-    {title: 'USA', locale: 'en_US'},
-    {title: 'RUSSIA', locale: 'ru'},
-    {title: 'Ukraine', locale: 'uk'},
-    {title: 'POLAND', locale: 'pl'},
-    {title: 'Germany', locale: 'de'},
-    {title: 'Japan', locale: 'ja'}
-   ],
-  currentRegion: {title: 'USA', locale: 'en_US'},
-  errorCount: 0,
+  regions: ['USA', 'Russia', 'Poland','Ukraine','Germany','Japan'],
+  currentRegion: 'USA',
+  defaultRegion: 'USA',
+  errorsCount: 0,
   seed: 0,
   data: [],
   isLoading: false,
@@ -27,11 +27,10 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     setCurrentRegion: (state, action: PayloadAction<string>) => {
-      const newRegion = action.payload;
-      state.currentRegion = state.regions.filter(region => region.title === newRegion)[0];
+      state.currentRegion = action.payload
     },
     setErrorCount: (state, action: PayloadAction<number>) => {
-      state.errorCount = action.payload;
+      state.errorsCount = action.payload;
     },
     setSeed: (state, action: PayloadAction<number>) => {
       state.seed = action.payload;
@@ -39,6 +38,15 @@ const appSlice = createSlice({
     setPageNumber: (state, action: PayloadAction<number>) => {
       state.pageNumber = action.payload;
     },
+    setDefaultRegion: (state, action: PayloadAction<string>) => {
+      state.defaultRegion = action.payload
+    },
+    setSearchParams: (state, action: PayloadAction<SearchParamsToState>) => {
+      state.seed = action.payload.seed;
+      state.currentRegion = action.payload.region;
+      state.errorsCount = action.payload.errorsCount;
+      state.pageNumber = action.payload.pageNumber;
+    }
   },
 
   extraReducers: builder => {
@@ -61,4 +69,11 @@ const appSlice = createSlice({
 })
 
 export const appReducer = appSlice.reducer;
-export const {setCurrentRegion, setErrorCount, setSeed, setPageNumber} = appSlice.actions;
+export const {
+  setCurrentRegion,
+  setErrorCount,
+  setSeed,
+  setPageNumber,
+  setDefaultRegion,
+  setSearchParams,
+} = appSlice.actions;

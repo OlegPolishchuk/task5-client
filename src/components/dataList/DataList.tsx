@@ -15,12 +15,15 @@ import {selectData, selectIsLoading, selectPageNumber} from "store/selectors";
 import {useInView} from "react-intersection-observer";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {setPageNumber} from "store/appReducer/appReducer";
+import {useSearchParams} from "react-router-dom";
 
 export const DataList = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector(selectData);
   const pageNumber = useAppSelector(selectPageNumber);
   const isLoading = useAppSelector(selectIsLoading);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {ref, inView, entry} = useInView({
     threshold: 0,
@@ -29,6 +32,9 @@ export const DataList = () => {
   useEffect(() => {
     if (inView) {
       dispatch(setPageNumber(pageNumber + 1))
+
+      searchParams.set('pageNumber', `${pageNumber + 1}`)
+      setSearchParams(searchParams)
     }
   }, [inView])
 
@@ -68,9 +74,6 @@ export const DataList = () => {
       </Table>
 
       {isLoading &&  (
-        // <Box sx={{textAlign: 'center'}}>
-        //   <CircularProgress />
-        // </Box>
         <Box sx={{ width: '100%' }}>
           <LinearProgress />
         </Box>

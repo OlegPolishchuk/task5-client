@@ -11,20 +11,61 @@ import {
   selectSeed
 } from "store/selectors";
 import {getData} from "store/appReducer/actions/getData";
-import {Box} from "@mui/material";
+import {Box, SelectChangeEvent} from "@mui/material";
+import {useSearchParams} from "react-router-dom";
+import {setSearchParamsToState} from "store/appReducer/actions/setSearchParams";
+import {DefaultSearchParams} from "constants/defaultSearchParams";
+import {DefaultRegion} from "constants/defaultRegion";
+import {setCurrentRegion, setPageNumber} from "store/appReducer/appReducer";
 
 export const Header = () => {
   console.log('header')
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const currentRegion = useAppSelector(selectCurrentRegion);
-  const errorCount = useAppSelector(selectErrorCount);
+  const pageNumber = useAppSelector(selectPageNumber);
+  // const currentRegion = useAppSelector(selectCurrentRegion);
   const seed = useAppSelector(selectSeed);
-  const pageNumber = useAppSelector(selectPageNumber)
+  // const errorsCount = useAppSelector(selectErrorCount);
+
+  const pageNumberParam = searchParams.get('pageNumber') || `${DefaultSearchParams.pageNumber}`;
+  const currentRegionParam = searchParams.get('region') || DefaultRegion.title;
+  const seedParam = searchParams.get('seed') || `${DefaultSearchParams.seed}`;
+  const errorsCountParam = searchParams.get('errorsCount') || `${DefaultSearchParams.errorsCount}`;
+
+  // console.log(`pageNumberParam`, pageNumberParam)
+  // console.log(`currentRegionParam`, currentRegionParam)
+  // console.log(`seedParam`, seedParam)
+  // console.log(`errorsCountParam`, errorsCountParam)
+
+  // const handleChangeRegion = (event: SelectChangeEvent) => {
+  //   dispatch(setCurrentRegion(event.target.value));
+  //   dispatch(setPageNumber(0))
+  //
+  //   searchParams.set('pageNumber', '0');
+  //   searchParams.set('region', event.target.value);
+  // }
+
+  console.log(`seedParam`, seedParam)
+  console.log('seed from store', seed)
 
   useEffect(() => {
-    dispatch(getData({currentRegion, errorCount, seed, pageNumber}))
-  }, [currentRegion, errorCount, seed, pageNumber])
+    dispatch(setSearchParamsToState({
+      pageNumber: pageNumberParam,
+      errorsCount: errorsCountParam,
+      seed: seedParam,
+      region: currentRegionParam
+    }))
+  }, [])
+
+  useEffect(() => {
+    dispatch(getData({
+      pageNumber: Number(pageNumberParam),
+      seed: Number(seedParam),
+      errorsCount: Number(errorsCountParam),
+      region: currentRegionParam
+    }))
+  }, [pageNumberParam, seedParam, errorsCountParam, currentRegionParam])
 
   return (
     <header>
@@ -34,9 +75,9 @@ export const Header = () => {
         padding: '15px',
         boxShadow: 2,
       }}>
-        <RegionSelect />
-        <ErrorCounter />
-        <SeedControls />
+        <RegionSelect/>
+        <ErrorCounter errorCount={Number(errorsCountParam)}/>
+        <SeedControls seed={Number(seedParam)}/>
       </Box>
     </header>
   );

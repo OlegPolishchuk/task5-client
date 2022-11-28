@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Box, Grid, Input, Slider, Typography} from "@mui/material";
 import {useAppSelector} from "hooks/useAppSelector";
 import {selectErrorCount} from "store/selectors";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {setErrorCount} from "store/appReducer/appReducer";
 import {useDebounce} from "hooks/useDebounce";
+import {useSearchParams} from "react-router-dom";
 
 const MIN_INPUT_VALUE = 0;
 const MAX_INPUT_VALUE = 1000;
@@ -15,10 +16,13 @@ const SLIDER_STEP = 0.2;
 
 const DEBOUNCED_DELAY = 500;
 
-export const ErrorCounter = () => {
-  const dispatch = useAppDispatch();
+type Props = {
+  errorCount: number;
+}
 
-  const errorCount = useAppSelector(selectErrorCount);
+export const ErrorCounter: FC<Props> = ({errorCount}) => {
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [value, setValue] = useState(errorCount);
   const debouncedValue = useDebounce<number>(value, DEBOUNCED_DELAY)
@@ -45,6 +49,10 @@ export const ErrorCounter = () => {
 
   useEffect(() => {
     dispatch(setErrorCount(value))
+
+    searchParams.set('errorsCount', `${value}`);
+    setSearchParams(searchParams);
+
   }, [debouncedValue])
 
   return (

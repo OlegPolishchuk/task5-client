@@ -1,8 +1,6 @@
-import {Region} from "store/appReducer/types/types";
-
-export type GetUsers = {
-  currentRegion: Region;
-  errorCount: number;
+export type GetData = {
+  region: string;
+  errorsCount: number;
   seed: number;
   pageNumber: number;
 }

@@ -1,16 +1,17 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {GetUsers} from "api/types";
+import {GetData} from "api/types";
 import {appApi} from "api";
+import {RootState} from "store/store";
+import {User} from "store/appReducer/types/types";
 
-export const getData = createAsyncThunk(
+export const getData = createAsyncThunk<User[], GetData, {state: RootState}>(
   'app/getUsers',
-  async ({seed, currentRegion, errorCount, pageNumber}: GetUsers, {rejectWithValue}) => {
-
+  async ({seed, region, errorsCount, pageNumber}: GetData, {rejectWithValue}) => {
     try {
       const {data} = await appApi.getUsers({
-        currentRegion,
+        region,
         seed,
-        errorCount,
+        errorsCount,
         pageNumber,
       })
 

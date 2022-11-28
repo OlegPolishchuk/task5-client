@@ -1,28 +1,34 @@
-import React, {useEffect} from 'react';
+import React, {FC} from 'react';
 import {
   Box,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent, Typography
+  SelectChangeEvent,
+  Typography
 } from "@mui/material";
 import {useAppSelector} from "hooks/useAppSelector";
 import {selectCurrentRegion, selectRegions} from "store/selectors";
-import {setCurrentRegion} from "store/appReducer/appReducer";
+import {setCurrentRegion, setPageNumber} from "store/appReducer/appReducer";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useSearchParams} from "react-router-dom";
 
 export const RegionSelect = () => {
   const dispatch = useAppDispatch();
 
+  const [search, setSearch] = useSearchParams();
+
   const regions = useAppSelector(selectRegions);
   const currentRegion = useAppSelector(selectCurrentRegion);
 
   const handleChangeRegion = (event: SelectChangeEvent) => {
     dispatch(setCurrentRegion(event.target.value));
-  }
+    dispatch(setPageNumber(0))
 
+    search.set('pageNumber', '0');
+    search.set('region', event.target.value);
+    setSearch(search);
+  }
 
   return (
     <Box sx={{
@@ -37,11 +43,11 @@ export const RegionSelect = () => {
       </Typography>
       <FormControl sx={{minWidth: '300px', ml: '30px'}}>
         <Select
-          value={currentRegion.title}
+          value={currentRegion}
           onChange={handleChangeRegion}
         >
           {regions.map(region => (
-            <MenuItem key={region.title} value={region.title}>{region.title}</MenuItem>
+            <MenuItem key={region} value={region}>{region}</MenuItem>
           ))}
         </Select>
       </FormControl>
