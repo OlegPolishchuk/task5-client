@@ -76,7 +76,7 @@ export const DataList = () => {
             {data.map((dataItem, index) => (
 
               <TableRow
-                key={dataItem.id}
+                key={`${dataItem.id}_${dataItem.name}`}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                 ref={index === data.length - 1 ? ref : null}
               >

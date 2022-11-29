@@ -60,7 +60,7 @@ const appSlice = createSlice({
 
       if (state.isFirst && state.pageNumber !== 0) {
         state.dataListStartNumber = state.pageNumber !== 0 && state.isFirst
-          ? state.pageNumber === 1 ? state.pageNumber * 20 + 1 : state.pageNumber * 10 + 1
+          ? state.pageNumber === 1 ? state.pageNumber * 20 + 1 : state.pageNumber * 10 + 11
           : 1;
       } else if (!state.isFirst && state.pageNumber === 0) {
         state.dataListStartNumber = 1
