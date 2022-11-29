@@ -1,6 +1,7 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {
-  Box, Button,
+  Box,
+  Button,
   LinearProgress,
   Paper,
   Table,
@@ -11,42 +12,35 @@ import {
   TableRow
 } from "@mui/material";
 import {useAppSelector} from "hooks/useAppSelector";
-import {selectData, selectIsLoading, selectPageNumber} from "store/selectors";
+import {
+  selectData,
+  selectIsLoading,
+  selectPageNumber,
+  selectStartDataListNumber
+} from "store/selectors";
 import {useInView} from "react-intersection-observer";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {setPageNumber} from "store/appReducer/appReducer";
 import {useSearchParams} from "react-router-dom";
 import {downloadCSV} from "store/appReducer/actions/downloadCSV";
 
-const DataItemsCountAfterFirstPage = 10;
-
 export const DataList = () => {
   const dispatch = useAppDispatch();
+
   const data = useAppSelector(selectData);
   const pageNumber = useAppSelector(selectPageNumber);
   const isLoading = useAppSelector(selectIsLoading);
+  const startListNumber = useAppSelector(selectStartDataListNumber);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const theadRef = useRef<HTMLTableSectionElement>(null);
 
   const {ref, inView} = useInView({
     threshold: 0,
   });
 
-  const startListNumber = pageNumber === 0
-    ? 1
-    : pageNumber * DataItemsCountAfterFirstPage + 1;
-
   const handleDownloadCSV = () => {
     dispatch(downloadCSV());
   }
-
-  useEffect(() => {
-    if (pageNumber === 0) {
-      theadRef.current?.scrollIntoView()
-    }
-  }, [pageNumber])
 
   useEffect(() => {
     if (inView) {
@@ -69,7 +63,7 @@ export const DataList = () => {
       >
 
         <Table sx={{minWidth: 650}} aria-label="simple table">
-          <TableHead ref={theadRef}>
+          <TableHead>
             <TableRow>
               <TableCell/>
               <TableCell align="right">ID</TableCell>
@@ -80,10 +74,11 @@ export const DataList = () => {
           </TableHead>
           <TableBody>
             {data.map((dataItem, index) => (
+
               <TableRow
                 key={dataItem.id}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                ref={index === data.length -1 ? ref : null}
+                ref={index === data.length - 1 ? ref : null}
               >
                 <TableCell component="th" scope="row">
                   {startListNumber + index}
@@ -97,9 +92,9 @@ export const DataList = () => {
           </TableBody>
         </Table>
 
-        {isLoading &&  (
-          <Box sx={{ width: '100%' }}>
-            <LinearProgress />
+        {isLoading && (
+          <Box sx={{width: '100%'}}>
+            <LinearProgress/>
           </Box>
         )}
 

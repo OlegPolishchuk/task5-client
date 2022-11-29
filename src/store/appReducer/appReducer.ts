@@ -13,6 +13,9 @@ const initialState: InitialState = {
   isLoading: false,
   error: '',
   pageNumber: 0,
+  isFirst: true,
+  isFirstRequest: true,
+  dataListStartNumber: 1,
 };
 
 
@@ -40,6 +43,9 @@ const appSlice = createSlice({
       state.currentRegion = action.payload.region;
       state.errorsCount = action.payload.errorsCount;
       state.pageNumber = action.payload.pageNumber;
+    },
+    setIsFirst: (state, action: PayloadAction<boolean>) => {
+      state.isFirst = action.payload;
     }
   },
 
@@ -49,9 +55,17 @@ const appSlice = createSlice({
       state.error = '';
     })
     builder.addCase(getData.fulfilled, (state, action: PayloadAction<User[]>) => {
-      const pageNumber = state.pageNumber;
-      state.data = pageNumber === 0 ? action.payload : state.data.concat(action.payload);
+      state.data = action.payload;
       state.isLoading = false;
+
+      if (state.isFirst && state.pageNumber !== 0) {
+        state.dataListStartNumber = state.pageNumber !== 0 && state.isFirst
+          ? state.pageNumber * 10 + 1
+          : 1;
+      }
+
+      state.isFirst = false;
+
     })
     builder.addCase(getData.rejected, (state, action) => {
       const error = action.payload as AxiosError;
@@ -69,4 +83,5 @@ export const {
   setSeed,
   setPageNumber,
   setSearchParams,
+  setIsFirst,
 } = appSlice.actions;

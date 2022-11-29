@@ -3,9 +3,10 @@ import {GetData} from "api/types";
 
 export const appApi = {
 
-  getUsers({region, errorsCount, seed, pageNumber}: GetData){
+  getUsers({region, errorsCount, seed, pageNumber, isFirst}: GetData){
     return instance.get(
-      `?pageNumber=${pageNumber}&region=${region}&seed=${seed}&errorsCount=${errorsCount}`
+      `?pageNumber=${pageNumber}&region=${region}&seed=${seed}&errorsCount=${errorsCount}`,
+      {params: {isFirst}}
     )
   },
 

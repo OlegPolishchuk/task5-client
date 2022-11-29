@@ -8,6 +8,10 @@ export type InitialState = {
   error: string;
   pageNumber: number;
   defaultRegion: string;
+  isFirst: boolean;
+  isFirstRequest: boolean;
+
+  dataListStartNumber: number;
 }
 
 export type Region = {

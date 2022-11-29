@@ -3,6 +3,7 @@ import {DataList, Header} from "components";
 import {Container} from "@mui/material";
 
 function App() {
+  console.log('app')
   return (
    <Container>
      <Header />

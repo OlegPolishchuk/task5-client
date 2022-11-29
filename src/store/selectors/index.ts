@@ -6,3 +6,5 @@ export {selectData} from './selectData/selectData';
 export {selectPageNumber} from './selectPageNumber/selectPageNumber';
 export {selectIsLoading} from './selectIsLoading/selectIsLoading';
 export {selectDefaultRegion} from './selectDefaultRegion/selectDefaultRegion';
+export {selectIsFirst} from './selectIsFirst/selectIsFirst';
+export {selectStartDataListNumber} from './selectStartDataListNumber/selectStartDataListNumber';

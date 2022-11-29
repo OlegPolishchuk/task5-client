@@ -50,10 +50,10 @@ export const ErrorCounter: FC<Props> = ({errorCount}) => {
 
   useEffect(() => {
     dispatch(setErrorCount(value))
-    dispatch(setPageNumber(0))
+    // dispatch(setPageNumber(0))
 
     searchParams.set('errorsCount', `${value}`);
-    searchParams.set('pageNumber', '0');
+    // searchParams.set('pageNumber', '0');
     setSearchParams(searchParams);
 
   }, [debouncedValue])
