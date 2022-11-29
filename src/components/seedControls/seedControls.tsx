@@ -2,7 +2,7 @@ import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {Box, Button, Input, Typography} from "@mui/material";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useDebounce} from "hooks/useDebounce";
-import {setSeed} from "store/appReducer/appReducer";
+import {setPageNumber, setSeed} from "store/appReducer/appReducer";
 import {getRandomInRange} from "utils/getRandomInRange";
 import {useSearchParams} from "react-router-dom";
 

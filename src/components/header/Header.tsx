@@ -9,9 +9,6 @@ import {useSearchParams} from "react-router-dom";
 import {setSearchParamsToState} from "store/appReducer/actions/setSearchParams";
 import {DefaultSearchParams} from "constants/defaultSearchParams";
 import {DefaultRegion} from "constants/defaultRegion";
-import {setIsFirst} from "store/appReducer/appReducer";
-import {useAppSelector} from "hooks/useAppSelector";
-import {selectIsFirst} from "store/selectors";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
